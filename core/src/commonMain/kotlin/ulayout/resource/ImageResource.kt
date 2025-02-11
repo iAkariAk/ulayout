@@ -7,7 +7,6 @@ import com.akari.ulayout.graphics.ScaleDescription
 import com.akari.ulayout.util.UlayoutJson
 import com.akari.ulayout.util.suspendedLazy
 import com.goncalossilva.resources.Resource
-import org.w3c.dom.events.Event
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -72,16 +71,9 @@ fun ImageResource.Companion.fromData(
             val res = ImageResource(image, description)
             continuation.resume(res)
         }
-        image.onerror = { cause, file, line, column, g->
-            console.log(cause)
-            console.log(g)
-            cause as Event
-            println(imageSrcData)
+        image.onerror = { cause, file, line, column, g ->
             console.error("$file($line:$column): $cause")
-//            continuation.resumeWithException(IllegalStateException(cause.toString()))
+            continuation.resumeWithException(IllegalStateException(cause.toString()))
         }
-    }.also {
-        println("MMD")
     }
-
 }

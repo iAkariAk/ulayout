@@ -111,9 +111,7 @@ class Ulayout(
     private fun getAvailableComponents(): List<VisualComponent> {
         val route = currentRoute?.let(configure.routes::get) ?: emptyList()
         val components = configure.common + route
-        return components.expandAll(templateProvider).also {
-            println("Expand: $it")
-        }
+        return components.expandAll(templateProvider)
     }
 
     suspend fun recompose(newRoute: String? = null) {

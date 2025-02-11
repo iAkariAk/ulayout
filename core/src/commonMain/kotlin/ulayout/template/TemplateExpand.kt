@@ -12,7 +12,6 @@ private fun Template.expandArgs(args: Map<String, JsonElement>): List<Map<String
         val content = value.content
         if (!content.startsWith("@args.")) return value
         val argName = content.removePrefix("@args.")
-        println("Translate arg: $argName in $params")
         val param = params[argName] ?: return value
         val arg = args[argName] ?: param.default
         checkNotNull(arg) { "$argName require value is must" }

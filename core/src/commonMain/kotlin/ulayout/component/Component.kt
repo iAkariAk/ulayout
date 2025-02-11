@@ -33,7 +33,6 @@ sealed class VisualComponent : Component() {
 
     suspend fun onClick(callbacks: AppCallbacks) {
         val events = Events.parse(events)
-        println("OnClick: $events")
         events.onClick?.let { callbacks.onIntent(it) }
     }
 
@@ -53,7 +52,6 @@ sealed class VisualComponent : Component() {
     }
 
     fun getIfContained(x: Double, y: Double) = takeIf {
-        println("Self $this, Other $x $y, contain: ${bounds.contains(x, y)}")
         bounds.contains(x, y)
     }
 

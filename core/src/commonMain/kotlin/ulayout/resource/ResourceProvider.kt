@@ -1,6 +1,5 @@
 package com.akari.ulayout.resource
 
-import com.akari.ulayout.util.logInvoke
 import com.akari.ulayout.util.pathNormalize
 import com.akari.ulayout.util.readTextOrNull
 import com.goncalossilva.resources.Resource
@@ -15,14 +14,14 @@ class CatchableResourceProvider(
     private val delegate: ResourceProvider
 ) : ResourceProvider {
     private val catchesOfGet = mutableMapOf<String, String>()
-    private val catchesOfGetImage = mutableMapOf<String,  ImageResource>()
+    private val catchesOfGetImage = mutableMapOf<String, ImageResource>()
     override fun get(path: String): String? {
         return catchesOfGet.getOrPut(path) {
             delegate[path] ?: return null
         }
     }
 
-    override suspend fun getImage(path: String) : ImageResource? {
+    override suspend fun getImage(path: String): ImageResource? {
         return catchesOfGetImage.getOrPut(path) {
             delegate.getImage(path) ?: return null
         }
@@ -43,9 +42,7 @@ class MemoryResourceProvider(
         return ImageResource.fromData(
             imageSrcData = get(path) ?: return null,
             descriptionJson = get("$path.sd.json")
-        ).get().also {
-            logInvoke("getImageMMS", this, path, it)
-        }
+        ).get()
     }
 
     override fun toString() = "MemoryResourceProvider"
@@ -63,13 +60,10 @@ class BuiltinResourceProvider : ResourceProvider {
             ?.readTextOrNull()
 
     override suspend fun getImage(path: String): ImageResource? {
-        console.log("Its " + getActualPathOrNull(path))
         return ImageResource.fromData(
             imageSrcData = getActualPathOrNull(path) ?: return null,
             descriptionJson = get("$path.sd.json")
-        ).get().also {
-            logInvoke("getImageMMS", this, path, it)
-        }
+        ).get()
     }
 
     override fun toString() = "BuiltinResourceProvider"

@@ -31,8 +31,6 @@ data class Rect(
         x in left..right && y in top..bottom
 
     fun contains(other: Rect): Boolean {
-        println("c1: ${contains(other.left, other.top)}, c2: ${contains(other.right, other.bottom)} ")
-
         return (contains(other.left, other.top)
                 && contains(other.right, other.bottom))
     }

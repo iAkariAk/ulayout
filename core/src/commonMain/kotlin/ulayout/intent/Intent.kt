@@ -8,7 +8,7 @@ sealed class Intent(
         fun parse(input: String): Intent {
             val codec = CODES.find { it.match(input) }
                 ?: error("Unsupported intent: $input")
-            println("Parse $input by $codec")
+//            console.log("Parse $input by $codec")
             return codec.deserialize(input)
         }
     }

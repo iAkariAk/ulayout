@@ -30,7 +30,6 @@ abstract class IntentCodec(
             .map(String::trim)
         val args = deserializeArgs(trimArgsStr)
         val intent = constructor(args)
-        println("Current $this, str: $string, intent: $intent")
 
         check(namespace == this.namespace) {
             "Cannot match namespace, expected is ${this.namespace}, but actual is $namespace"
@@ -60,7 +59,6 @@ fun IntentCodec.match(intent: Intent) =
 
 fun IntentCodec.match(serialized: String) = try {
     val (namespace, name, _) = DECONSTRUCT_FI_REGEX.find(serialized)!!.destructured
-    println("namespace: $namespace, name: $name")
     this.namespace == namespace && this.name == name
 } catch (_: Throwable) {
     false
