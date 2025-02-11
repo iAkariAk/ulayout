@@ -1,12 +1,17 @@
 package com.akari.ulayout.resource
 
+import com.akari.ulayout.util.pathNormalize
 import com.goncalossilva.resources.Resource
 
 interface ResourceProvider {
     operator fun get(path: String): String?
     suspend fun getImage(path: String): ImageResource = ImageResource.fromData(
         imageSrcData = checkNotNull(get(path)) { "Resource $path not found" },
-        descriptionJson = checkNotNull(get("$path.sd.json")) { "Resource $path.sd.json not found" }
+        descriptionJson = try {
+            checkNotNull(get("$path.sd.json")) { "Resource $path.sd.json not found" }
+        } catch (_: Throwable) {
+            null
+        }
     ).get()
 }
 
@@ -28,13 +33,13 @@ class MemoryResourceProvider(
     private val delegate: ResourceStorage
 ) : ResourceProvider {
     override fun get(path: String): String? =
-        delegate[path]
+        delegate[path.pathNormalize()]
 }
 
 class BuiltinResourceProvider : ResourceProvider {
     override fun get(path: String): String? = try {
         if (path.startsWith("#builtin:"))
-            Resource(path.removePrefix("#buitin:")).readText()
+            Resource(path.removePrefix("#buitin:").pathNormalize()).readText()
         else null
     } catch (_: Throwable) {
         null
@@ -45,8 +50,10 @@ class CombinedResourceProvider(
     private val inner: ResourceProvider,
     private val outer: ResourceProvider
 ) : ResourceProvider {
-    override fun get(path: String): String? =
-        inner[path] ?: outer[path]
+    override fun get(path: String): String? {
+        val p = path.pathNormalize()
+        return inner[p] ?: outer[p]
+    }
 }
 
 operator fun ResourceProvider.plus(other: ResourceProvider): ResourceProvider =
@@ -55,5 +62,5 @@ operator fun ResourceProvider.plus(other: ResourceProvider): ResourceProvider =
 internal abstract class Resources(
     protected val pathPrefix: String = ""
 ) {
-    protected fun image(path: String) = ImageResource.fromAssets("$pathPrefix$path")
+    protected fun image(path: String) = ImageResource.fromAssets("$pathPrefix$path".pathNormalize())
 }
