@@ -119,8 +119,6 @@ class Ulayout(
         currentRoute = newRoute
         availableComponents = getAvailableComponents()
         context.fillBackground()
-//        context.fillStyle = configure.style.background
-//        context.fillRect(0.0, 0.0, canvas.width.toDouble(), canvas.height.toDouble())
         availableComponents.forEach { drawComponent(it) }
         recomposeCount++
     }
@@ -132,19 +130,9 @@ class Ulayout(
             canvas.bounds,
             background.scaleDescription
         )
-//        drawImage(background, 0.0, 0.0, 30.0, 30.0, 0.0, 0.0, 30.0, 30.0)
-//        drawImage(background, 0.0, 105.0, 30.0, 30.0, 0.0, canvas.height - 30.0, 30.0, 30.0)
-//        drawImage(background, 105.0, 0.0, 30.0, 30.0, canvas.width - 30.0, 0.0, 30.0, 30.0)
-//        drawImage(background, 105.0, 105.0, 30.0, 30.0, canvas.width - 30.0, canvas.height - 30.0, 30.0, 30.0)
-//        drawImage(background, 30.0, 0.0, 75.0, 30.0, 30.0, 0.0, canvas.width - 60.0, 30.0)
-//        drawImage(background, 30.0, 105.0, 75.0, 30.0, 30.0, canvas.height - 30.0, canvas.width - 60.0, 30.0)
-//        drawImage(background, 0.0, 30.0, 30.0, 75.0, 0.0, 30.0, 30.0, canvas.height - 60.0)
-//        drawImage(background, 105.0, 30.0, 30.0, 75.0, canvas.width - 30.0, 30.0, 30.0, canvas.height - 60.0)
-//        drawImage(background, 30.0, 30.0, 75.0, 75.0, 30.0, 30.0, canvas.width - 60.0, canvas.height - 60.0)
     }
 
     private suspend fun drawComponent(component: VisualComponent) {
-//        println("drawing $component")
         component.init(ulpack)
         component.paint(context)
     }

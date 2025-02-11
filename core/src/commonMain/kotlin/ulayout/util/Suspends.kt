@@ -6,7 +6,9 @@ fun interface SuspendedProvider<out T> {
 
 private object UNINITIALIZED_VALUE
 
-fun <T> suspendedLazy(initializer: suspend () -> T) = object : SuspendedProvider<T> {
+inline fun <T> suspendedLazy(
+    crossinline initializer: suspend () -> T
+) = object : SuspendedProvider<T> {
     var value: Any? = UNINITIALIZED_VALUE
     override suspend fun get(): T {
         println("TRY GET")

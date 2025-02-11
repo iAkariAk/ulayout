@@ -16,7 +16,9 @@ import kotlin.io.encoding.ExperimentalEncodingApi
 data class ImageResource(
     val image: DomImage,
     val scaleDescription: ScaleDescription? = null
-)
+) {
+    companion object
+}
 
 suspend fun ByteArray.encodeToDomImage() = suspendCoroutine { continuation ->
     // 89504E470D0A1A0A: PNG's magic number
@@ -46,21 +48,24 @@ suspend fun ByteArray.encodeToDomImage() = suspendCoroutine { continuation ->
     }
 }
 
-fun ImageResource(path: String) = suspendedLazy {
+fun ImageResource.Companion.fromAssets(
+    imagePath: String,
+    descriptionPath: String = "$imagePath.sd.json"
+) = fromData(
+    imageSrcData = imagePath,
+    descriptionJson = Resource(descriptionPath).readText()
+)
+
+fun ImageResource.Companion.fromData(
+    imageSrcData: String,
+    descriptionJson: String?,
+) = suspendedLazy {
     suspendCoroutine { continuation ->
-
-
-        val sdPath = "$path.sd.json"
-        val description = try {
-            val descriptionJson = Resource(sdPath).readText()
-            UlayoutJson.decodeFromString<ScaleDescription>(descriptionJson)
-        } catch (_: Throwable) {
-            console.log("Cannot found scale description file $sdPath")
-            null
+        val description = descriptionJson?.let {
+            UlayoutJson.decodeFromString<ScaleDescription>(it)
         }
-
         val image = DomImage().apply {
-            src = path
+            src = imageSrcData
         }
         image.onload = {
             val res = ImageResource(image, description)
@@ -70,10 +75,4 @@ fun ImageResource(path: String) = suspendedLazy {
             continuation.resumeWithException(IllegalStateException(cause))
         }
     }
-}
-
-internal abstract class Resources(
-    protected val pathPrefix: String = ""
-) {
-    protected fun image(path: String) = ImageResource("$pathPrefix$path")
 }

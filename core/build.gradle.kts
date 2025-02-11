@@ -26,6 +26,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation("com.goncalossilva:resources:0.10.0")
+                implementation("com.squareup.okio:okio:3.10.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-html:0.12.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")

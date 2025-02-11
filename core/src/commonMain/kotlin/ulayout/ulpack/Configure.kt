@@ -32,7 +32,7 @@ data class UlayoutConfigure(
 
 @Serializable
 data class Style(
-    val background: String = "#f7ecdd",
+    val background: String = "#builtin:assets/ulayout/background.png",
 ) {
     companion object {
         val Default = Style()

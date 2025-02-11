@@ -4,6 +4,10 @@ import com.goncalossilva.resources.Resource
 
 interface ResourceProvider {
     operator fun get(path: String): String?
+    suspend fun getImage(path: String): ImageResource = ImageResource.fromData(
+        imageSrcData = checkNotNull(get(path)) { "Resource $path not found" },
+        descriptionJson = checkNotNull(get("$path.sd.json")) { "Resource $path.sd.json not found" }
+    ).get()
 }
 
 class CatchableResourceProvider(
@@ -13,6 +17,8 @@ class CatchableResourceProvider(
     override fun get(path: String): String? =
         delegate[path]?.let { res ->
             catches.getOrPut(path) { res }
+        }.also {
+            println("catch: $path")
         }
 }
 
@@ -27,8 +33,8 @@ class MemoryResourceProvider(
 
 class BuiltinResourceProvider : ResourceProvider {
     override fun get(path: String): String? = try {
-        if (!path.startsWith("#builtin"))
-            Resource(path.removePrefix("#buitin")).readText()
+        if (path.startsWith("#builtin:"))
+            Resource(path.removePrefix("#buitin:")).readText()
         else null
     } catch (_: Throwable) {
         null
@@ -45,3 +51,9 @@ class CombinedResourceProvider(
 
 operator fun ResourceProvider.plus(other: ResourceProvider): ResourceProvider =
     CombinedResourceProvider(this, other)
+
+internal abstract class Resources(
+    protected val pathPrefix: String = ""
+) {
+    protected fun image(path: String) = ImageResource.fromAssets("$pathPrefix$path")
+}

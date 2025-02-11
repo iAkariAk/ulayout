@@ -5,7 +5,6 @@ import com.akari.ulayout.graphics.drawImageWithScale
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.w3c.dom.CanvasRenderingContext2D
-import org.w3c.dom.Image as DomImage
 
 @Serializable
 @SerialName("Image")
@@ -20,15 +19,11 @@ data class Image(
 ) : VisualComponent() {
     override suspend fun paint(context: CanvasRenderingContext2D) {
         super.paint(context)
-        val srcData = checkNotNull(resources[src]) { "Resource $src not found" }
-        val image = DomImage()
-        image.src = srcData
-        image.onload = {
-            context.drawImageWithScale(
-                image,
-                bounds,
-                scale
-            )
-        }
+        val res = resources.getImage(src)
+        context.drawImageWithScale(
+            res.image,
+            bounds,
+            scale ?: res.scaleDescription
+        )
     }
 }
