@@ -25,6 +25,7 @@ suspend fun main() {
     }.onFailure { e ->
         document.body!!.append {
             console.error(e.message)
+            console.error(e.stackTraceToString())
             h1 {
                 style = "color: red;"
                 +(e.message ?: "<Null>")
@@ -57,15 +58,15 @@ private suspend fun runApp() {
             }
         }
     }
-
     val canvas = document.getElementById("content") as HTMLCanvasElement
     val configureJson = Resource("configure.json").readText()
     val configure = UlayoutConfigure.parse(configureJson)
+    val ulpack = Ulpack.wrap(configure) {
+        putTestRes()
+    }
     Ulayout(
         canvas = canvas,
-        ulpack = Ulpack.wrap(configure) {
-            putTestRes()
-        }
+        ulpack = ulpack
     ) { callback ->
         AppCallbacks { intent ->
             when (intent) {

@@ -19,7 +19,9 @@ data class Image(
 ) : VisualComponent() {
     override suspend fun paint(context: CanvasRenderingContext2D) {
         super.paint(context)
-        val res = resources.getImage(src)
+        val res = checkNotNull(resources.getImage(src)) {
+            "Image resource $src not found"
+        }
         context.drawImageWithScale(
             res.image,
             bounds,

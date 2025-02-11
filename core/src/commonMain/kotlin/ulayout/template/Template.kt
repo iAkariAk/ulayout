@@ -13,15 +13,18 @@ data class Template(
 @Serializable
 data class Param(
     val type: ParamType,
-    val default: JsonElement
+    val default: JsonElement? = null
 )
 
 enum class ParamType(val displayName: String) {
     @SerialName("string")
     STRING("string"),
 
-    @SerialName("primitive")
-    PRIMITIVE("primitive"),
+    @SerialName("number")
+    NUMBER("number"),
+
+    @SerialName("boolean")
+    BOOLEAN("boolean"),
 
     @SerialName("object")
     OBJECT("object"),
@@ -29,29 +32,40 @@ enum class ParamType(val displayName: String) {
     @SerialName("array")
     ARRAY("array"),
 
-    @SerialName("string?")
-    NULLABLE_STRING("string?"),
-
-    @SerialName("primitive?")
-    NULLABLE_PRIMITIVE("primitive?"),
-
-    @SerialName("object?")
-    NULLABLE_OBJECT("object?"),
-
-    @SerialName("array?")
-    NULLABLE_ARRAY("array?");
+    @SerialName("null")
+    NULL("null");
 
     companion object {
-        fun fromElement(element: JsonElement) = when {
-            element is JsonPrimitive && element.isString -> STRING
-            element is JsonPrimitive && !element.isString -> PRIMITIVE
-            element is JsonObject -> OBJECT
-            element is JsonArray -> ARRAY
-            element is JsonNull || element is JsonPrimitive && element.isString -> NULLABLE_STRING
-            element is JsonNull || element is JsonPrimitive && !element.isString -> NULLABLE_PRIMITIVE
-            element is JsonNull || element is JsonObject -> NULLABLE_OBJECT
-            element is JsonNull || element is JsonArray -> NULLABLE_ARRAY
-            else -> error("JsonLiteral is a deprecated API, it shouldn't be ues.") // JsonLiteral
-        }
+        fun fromElement(element: JsonElement) = when (element) {
+            is JsonArray -> ARRAY
+            is JsonObject -> OBJECT
+            is JsonPrimitive -> when {
+                element.isString -> STRING
+                element == JsonNull -> NULL
+                element.isNumber() -> NUMBER
+                element.isBoolean() -> BOOLEAN
+                else -> null
+            }
+
+            JsonNull -> NULL
+            else -> null
+        } ?: error("JsonLiteral is a deprecated API, it shouldn't be ues.") // JsonLiteral
     }
+}
+
+private fun JsonPrimitive.isNumber() = try {
+    int
+    long
+    float
+    double
+    true
+} catch (_: Throwable) {
+    false
+}
+
+private fun JsonPrimitive.isBoolean() = try {
+    boolean
+    true
+} catch (_: Throwable) {
+    false
 }

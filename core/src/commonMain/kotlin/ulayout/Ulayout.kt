@@ -9,6 +9,7 @@ import com.akari.ulayout.graphics.bounds
 import com.akari.ulayout.graphics.drawImageWithScale
 import com.akari.ulayout.intent.Intent
 import com.akari.ulayout.intent.ScreenIntents
+import com.akari.ulayout.template.BuiltinTemplates
 import com.akari.ulayout.template.TemplateProvider
 import com.akari.ulayout.template.expandAll
 import com.akari.ulayout.ulpack.Style
@@ -97,6 +98,7 @@ class Ulayout(
                     )?.onClick(callbacks)
                 }
             })
+        templateProvider += BuiltinTemplates
         templateProvider += configure.templates
     }
 
@@ -110,7 +112,7 @@ class Ulayout(
         val route = currentRoute?.let(configure.routes::get) ?: emptyList()
         val components = configure.common + route
         return components.expandAll(templateProvider).also {
-//            println("Expand: $it")
+            println("Expand: $it")
         }
     }
 

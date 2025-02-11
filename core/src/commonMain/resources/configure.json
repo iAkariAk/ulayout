@@ -15,7 +15,7 @@
           "default": "red"
         },
         "textSize2": {
-          "type": "primitive",
+          "type": "number",
           "default": 8
         }
       },
@@ -72,6 +72,18 @@
     ]
   },
   "common": [
+    {
+      "type": "@template",
+      "name": "Card",
+      "x": 100,
+      "y": 320,
+      "width": 450,
+      "height": 50,
+      "args": {
+        "width": 450,
+        "height": 50
+      }
+    },
     {
       "type": "@template",
       "name": "TwoText",

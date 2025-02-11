@@ -15,6 +15,7 @@ private fun Template.expandArgs(args: Map<String, JsonElement>): List<Map<String
         println("Translate arg: $argName in $params")
         val param = params[argName] ?: return value
         val arg = args[argName] ?: param.default
+        checkNotNull(arg) { "$argName require value is must" }
         val actualType = ParamType.fromElement(arg)
         check(param.type == actualType) {
             "Cannot match same type in $argName($arg), expected type is ${param.type.displayName}, but actual type is ${actualType.displayName}"

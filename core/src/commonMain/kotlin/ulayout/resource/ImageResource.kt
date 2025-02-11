@@ -7,6 +7,7 @@ import com.akari.ulayout.graphics.ScaleDescription
 import com.akari.ulayout.util.UlayoutJson
 import com.akari.ulayout.util.suspendedLazy
 import com.goncalossilva.resources.Resource
+import org.w3c.dom.events.Event
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -59,7 +60,7 @@ fun ImageResource.Companion.fromAssets(
 fun ImageResource.Companion.fromData(
     imageSrcData: String,
     descriptionJson: String?,
-) = suspendedLazy {
+) = suspendedLazy<ImageResource> {
     suspendCoroutine { continuation ->
         val description = descriptionJson?.let {
             UlayoutJson.decodeFromString<ScaleDescription>(it)
@@ -71,8 +72,16 @@ fun ImageResource.Companion.fromData(
             val res = ImageResource(image, description)
             continuation.resume(res)
         }
-        image.onerror = { _, cause, _, _, _ ->
-            continuation.resumeWithException(IllegalStateException(cause))
+        image.onerror = { cause, file, line, column, g->
+            console.log(cause)
+            console.log(g)
+            cause as Event
+            println(imageSrcData)
+            console.error("$file($line:$column): $cause")
+//            continuation.resumeWithException(IllegalStateException(cause.toString()))
         }
+    }.also {
+        println("MMD")
     }
+
 }

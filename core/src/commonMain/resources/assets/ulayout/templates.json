@@ -1,0 +1,22 @@
+{
+  "Card": {
+    "params": {
+      "width": {
+        "type": "number"
+      },
+      "height": {
+        "type": "number"
+      }
+    },
+    "expand": [
+      {
+        "type": "Image",
+        "src": "builtin@game/AlmanacUI/image_almanac_stone_tablet.png",
+        "x": 0,
+        "y": 0,
+        "width": "@args.width",
+        "height": "@args.height"
+      }
+    ]
+  }
+}
