@@ -1,0 +1,173 @@
+{
+  "style": {
+    "backgroundColor": "#e9e981"
+  },
+  "templates": {
+    "ImageButton": {
+      "params": {
+        "text": {
+          "type": "string",
+          "default": "<Default Text>"
+        },
+        "onClick": {
+          "type": "string",
+          "default": ""
+        }
+      },
+      "expand": [
+        {
+          "type": "Image",
+          "src": "src/images/test.jpg",
+          "events": {
+            "onClick": "@args.onClick"
+          },
+          "x": 0,
+          "y": 0,
+          "width": 100,
+          "height": 100
+        },
+        {
+          "type": "Text",
+          "text": "@args.text",
+          "events": {
+            "onClick": "@args.onClick"
+          },
+          "x": 120,
+          "y": 30,
+          "width": 180,
+          "height": 40
+        }
+      ]
+    },
+    "TwoText": {
+      "params": {
+        "text1": {
+          "type": "string",
+          "default": "<Default Text>"
+        },
+        "text2": {
+          "type": "string",
+          "default": "<Default Text>"
+        }
+      },
+      "expand": [
+        {
+          "type": "Text",
+          "text": "@args.text1",
+          "x": 0,
+          "y": 0,
+          "width": 200,
+          "height": 50
+        },
+        {
+          "type": "Text",
+          "text": "@args.text2",
+          "x": 220,
+          "y": 0,
+          "width": 200,
+          "height": 50
+        }
+      ]
+    }
+  },
+  "routes": {
+    "Day": [
+      {
+        "type": "Image",
+        "src": "src/images/test.jpg",
+        "x": 50,
+        "y": 100,
+        "width": 200,
+        "height": 300,
+        "events": {
+          "onClick": "@level:goto(src/levels/d_level1.json)"
+        }
+      }
+    ],
+    "Night": [
+      {
+        "type": "Image",
+        "src": "src/images/test.jpg",
+        "x": 50,
+        "y": 200,
+        "width": 200,
+        "height": 300,
+        "events": {
+          "onClick": "@level:goto(src/levels/n_level2.json)"
+        }
+      }
+    ]
+  },
+  "common": [
+    {
+      "type": "@template",
+      "name": "TwoText",
+      "x": 380,
+      "y": 320,
+      "width": 450,
+      "height": 50,
+      "args": {
+        "text1": "Ciallo",
+        "text2": "Wolf"
+      }
+    },
+    {
+      "type": "@template",
+      "name": "ImageButton",
+      "x": 50,
+      "y": 380,
+      "width": 320,
+      "height": 100,
+      "args": {
+        "text": "Exit",
+        "onClick": "@screen:exit()"
+      }
+    },
+    {
+      "type": "Text",
+      "text": "Day Mode",
+      "x": 300,
+      "y": 130,
+      "width": 200,
+      "height": 50,
+      "events": {
+        "onClick": "@screen:navigate(Day)"
+      }
+    },
+    {
+      "type": "Text",
+      "text": "Night Mode",
+      "x": 600,
+      "y": 130,
+      "width": 200,
+      "height": 50,
+      "events": {
+        "onClick": "@screen:navigate(Night)"
+      }
+    },
+    {
+      "type": "Button",
+      "style": "almanac",
+      "text": "Day Mode",
+      "x": 300,
+      "y": 200,
+      "width": 200,
+      "height": 50,
+      "events": {
+        "onClick": "@screen:alert(Ciallo!, @screen:alert(Wolf!, @screen:exit()))"
+      }
+    },
+    {
+      "type": "Button",
+      "style": "dialog",
+      "text": "dark Mode",
+      "x": 300,
+      "y": 400,
+      "width": 200,
+      "height": 50,
+      "events": {
+        "onClick": "@screen:alert(Ciallo!, @screen:alert(K!, @screen:exit()))"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "Card": {
+    "params": {
+      "text": {
+        "type": "string",
+        "default": "<Default Text>"
+      }
+    }
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "templates": {
+    "TwoText": {
+      "params": {
+        "text1": {
+          "type": "string",
+          "default": "<Default Text>"
+        },
+        "text2": {
+          "type": "string",
+          "default": "<Default Text>"
+        },
+        "textColor": {
+          "type": "string",
+          "default": "red"
+        },
+        "textSize2": {
+          "type": "primitive",
+          "default": 8
+        }
+      },
+      "expand": [
+        {
+          "type": "Text",
+          "text": "@args.text1",
+          "x": 0,
+          "y": 0,
+          "textColor": "#69a36b",
+          "textSize": 32,
+          "width": 200,
+          "height": 50
+        },
+        {
+          "type": "Text",
+          "text": "@args.text2",
+          "textColor": "@args.textColor",
+          "textSize": "@args.textSize2",
+          "x": 220,
+          "y": 0,
+          "width": 200,
+          "height": 50
+        }
+      ]
+    }
+  },
+  "routes": {
+    "Day": [
+      {
+        "type": "Image",
+        "src": "src/images/test.jpg",
+        "x": 100,
+        "y": 100,
+        "width": 120,
+        "height": 120,
+        "events": {
+          "onClick": "@screen:alert(This is Day)"
+        }
+      }
+    ],
+    "Night": [
+      {
+        "type": "Image",
+        "src": "src/images/test.jpg",
+        "x": 100,
+        "y": 100,
+        "width": 120,
+        "height": 120,
+        "events": {
+          "onClick": "@screen:alert(This is Night)"
+        }
+      }
+    ]
+  },
+  "common": [
+    {
+      "type": "@template",
+      "name": "TwoText",
+      "x": 100,
+      "y": 320,
+      "width": 450,
+      "height": 50,
+      "args": {
+        "text1": "什么时候 我也能自由自在地施展魔法呢",
+        "text2": "长久以来 我总希望我是那独一无二的人",
+        "textSize2": 36
+      }
+    },
+    {
+      "type": "@template",
+      "name": "TwoText",
+      "x": 100,
+      "y": 370,
+      "width": 450,
+      "height": 50,
+      "args": {
+        "text1": "When can I freely cast my magic",
+        "text2": "I've always hoped that I was the only one",
+        "textColor": "#db91fe"
+      }
+    },
+    {
+      "type": "Text",
+      "text": "Day Mode",
+      "x": 300,
+      "y": 130,
+      "width": 200,
+      "height": 50,
+      "events": {
+        "onClick": "@screen:navigate(Day)"
+      }
+    },
+    {
+      "type": "Text",
+      "text": "Night Mode",
+      "x": 600,
+      "y": 130,
+      "width": 200,
+      "height": 50,
+      "events": {
+        "onClick": "@screen:navigate(Night)"
+      }
+    },
+    {
+      "type": "Button",
+      "style": "almanac",
+      "text": "Play",
+      "x": 400,
+      "y": 200,
+      "width": 200,
+      "height": 50,
+      "events": {
+        "onClick": "@screen:alert(Play is play, @screen:alert(Play ultimately!))"
+      }
+    },
+    {
+      "type": "Button",
+      "style": "almanac",
+      "text": "Back 返回",
+      "x": 0,
+      "y": 430,
+      "width": 160,
+      "height": 40,
+      "events": {
+        "onClick": "@screen:exit()"
+      }
+    },
+    {
+      "type": "Button",
+      "style": "dialog",
+      "text": "Button 1",
+      "x": 400,
+      "y": 350,
+      "width": 200,
+      "height": 50,
+      "events": {
+        "onClick": "@screen:alert(This button 1)"
+      }
+    },
+    {
+      "type": "Button",
+      "style": "dialog",
+      "text": "Button 2",
+      "x": 400,
+      "y": 400,
+      "width": 200,
+      "height": 50,
+      "events": {
+        "onClick": "@screen:alert(This button 2)"
+      }
+    }
+  ]
+}
