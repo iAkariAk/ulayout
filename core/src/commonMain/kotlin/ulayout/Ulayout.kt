@@ -124,7 +124,7 @@ class Ulayout(
     }
 
     private suspend fun CanvasRenderingContext2D.fillBackground() {
-        val background = Res.background.get()
+        val background = ulpack.getImage(configure.style.background) ?: Res.background.get()
         drawImageWithScale(
             background.image,
             canvas.bounds,

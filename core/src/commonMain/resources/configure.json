@@ -1,4 +1,7 @@
 {
+  "style": {
+    "background": "builtin@game/AlmanacUI/image_almanac_stone_tablet.png"
+  },
   "templates": {
     "TwoText": {
       "params": {
