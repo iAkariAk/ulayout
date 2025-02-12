@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ulpackm-jvm-0.0.0-SHOTSNAP">
+    <output-path>$PROJECT_DIR$/ulpackm/build/libs</output-path>
+    <root id="archive" name="ulpackm-jvm-0.0.0-SHOTSNAP.jar">
+      <element id="module-output" name="ulayout.ulpackm.jvmMain" />
+    </root>
+  </artifact>
+</component>

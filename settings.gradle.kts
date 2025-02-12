@@ -19,3 +19,4 @@ plugins {
 rootProject.name = "ulayout"
 
 include(":core")
+include(":ulpackm")
