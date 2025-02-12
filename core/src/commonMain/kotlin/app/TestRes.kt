@@ -1,4 +1,4 @@
-package com.akari
+package com.akari.app
 
 import com.akari.ulayout.util.pathNormalize
 

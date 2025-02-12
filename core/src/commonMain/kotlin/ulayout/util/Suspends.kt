@@ -7,8 +7,8 @@ fun interface SuspendedProvider<out T> {
 @Suppress("ClassName")
 private object UNINITIALIZED_VALUE
 
-inline fun <T> suspendedLazy(
-    crossinline initializer: suspend () -> T
+fun <T> suspendedLazy(
+     initializer: suspend () -> T
 ) = object : SuspendedProvider<T> {
     private var value: Any? = UNINITIALIZED_VALUE
     override suspend fun get(): T {
