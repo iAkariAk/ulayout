@@ -1,0 +1,24 @@
+[versions]
+kotlin = "2.1.0"
+okio = "3.10.2"
+resources = "0.10.0"
+kotlinx-coroutines = "1.10.1"
+kotlinx-html = "0.12.0"
+kotlinx-serialization = "1.8.0"
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
+okio = { "module" = "com.squareup.okio:okio", version.ref = "okio" }
+resources = { "module" = "com.goncalossilva:resources", version.ref = "resources" }
+kotlinx-coroutines = { "module" = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-html = { "module" = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinx-html" }
+kotlinx-serialization-json = { "module" = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
+
+[plugins]
+kotlin-multiplatform = { "id" = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-jvm = { "id" = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { "id" = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+resources = { "id" = "com.goncalossilva.resources", version.ref = "resources" }
+

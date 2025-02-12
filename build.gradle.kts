@@ -1,7 +1,30 @@
+import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
+import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompile
+
 plugins {
-    kotlin("multiplatform") version "2.1.0" apply false
-    kotlin("plugin.serialization") version "2.1.0" apply false
-    id("com.goncalossilva.resources") version "0.10.0" apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.resources) apply false
 }
 
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.multiplatform")
+    tasks.withType<AbstractKotlinCompile<*>>() {
+        compilerOptions.optIn = listOf(
+            "kotlinx.serialization.ExperimentalSerializationApi",
+            "InternalSerializationApi"
+        )
+        compilerOptions.freeCompilerArgs.addAll(
+            "-Xwhen-guards",
+            "-Xnon-local-break-continue",
+            "-Xmulti-dollar-interpolation",
+        )
+    }
+
+    tasks.withType<KotlinJsCompile>() {
+        compilerOptions {
+            target = "es2015"
+        }
+    }
+}
 
