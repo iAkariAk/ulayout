@@ -52,7 +52,7 @@ class BuiltinResourceProvider : ResourceProvider {
     private fun getActualPathOrNull(path: String): String? =
         path.takeIf { path.startsWith("builtin@") }
             ?.removePrefix("builtin@")
-            ?.let { ("assets/ulayout/".toPath() / it.toPath()).normalized().toString() }
+            ?.let { ("./assets/ulayout/".toPath() / it.toPath()).normalized().toString() }
 
     override fun get(path: String): String? =
         getActualPathOrNull(path)
