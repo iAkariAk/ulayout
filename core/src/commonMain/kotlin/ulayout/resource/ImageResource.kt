@@ -6,7 +6,11 @@ import com.akari.ulayout.graphics.DomImage
 import com.akari.ulayout.graphics.ScaleDescription
 import com.akari.ulayout.util.UlayoutJson
 import com.akari.ulayout.util.suspendedLazy
-import com.goncalossilva.resources.Resource
+import okio.Path
+import okio.Path.Companion.toPath
+import ulayout.resource.ResourceAccessor
+import ulayout.resource.attachTo
+import ulayout.util.appendSuffix
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -48,12 +52,21 @@ suspend fun ByteArray.encodeToDomImage() = suspendCoroutine { continuation ->
     }
 }
 
+fun ResourceAccessor.getImage(path: Path) = suspendedLazy {
+    ImageResource(
+        image = attachTo(path, DomImage()),
+        scaleDescription = readTextOrNull(path.appendSuffix(".sd.json"))?.let {
+            UlayoutJson.decodeFromString(it)
+        }
+    )
+}
+
 fun ImageResource.Companion.fromAssets(
     imagePath: String,
     descriptionPath: String = "$imagePath.sd.json"
 ) = fromData(
     imageSrcData = imagePath,
-    descriptionJson = Resource(descriptionPath).readText()
+    descriptionJson = ResourceAccessor.readTextOrNull(descriptionPath.toPath())
 )
 
 fun ImageResource.Companion.fromData(

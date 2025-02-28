@@ -8,26 +8,18 @@ plugins {
 kotlin {
     js(IR) {
         browser {
-            commonWebpackConfig {
-                cssSupport {
-                    enabled = true
-                }
-                devtool = "source-map"
-                sourceMaps = true
-                outputFileName = "ulayout.js"
-            }
 
         }
-        binaries.executable()
     }
+
     sourceSets {
         commonMain {
             dependencies {
-                implementation(libs.resources)
-                implementation(libs.okio)
-                implementation(libs.kotlinx.coroutines)
-                implementation(libs.kotlinx.html)
-                implementation(libs.kotlinx.serialization.json)
+                api(libs.resources)
+                api(libs.okio)
+                api(libs.kotlinx.coroutines)
+                api(libs.kotlinx.html)
+                api(libs.kotlinx.serialization.json)
             }
         }
         commonTest {
@@ -37,5 +29,4 @@ kotlin {
         }
     }
 }
-
 

@@ -7,7 +7,6 @@ import com.akari.ulayout.intent.ScreenIntents
 import com.akari.ulayout.then
 import com.akari.ulayout.ulpack.UlayoutConfigure
 import com.akari.ulayout.ulpack.Ulpack
-import com.goncalossilva.resources.Resource
 import kotlinx.browser.document
 import kotlinx.browser.window
 import kotlinx.html.dom.append
@@ -17,7 +16,9 @@ import kotlinx.html.id
 import kotlinx.html.js.canvas
 import kotlinx.html.js.div
 import kotlinx.html.style
+import okio.Path.Companion.toPath
 import org.w3c.dom.HTMLCanvasElement
+import ulayout.resource.ResourceAccessor
 
 suspend fun main() {
     runCatching {
@@ -59,7 +60,7 @@ private suspend fun runApp() {
         }
     }
     val canvas = document.getElementById("content") as HTMLCanvasElement
-    val configureJson = Resource("configure.json").readText()
+    val configureJson = ResourceAccessor.readText("configure.json".toPath())
     val configure = UlayoutConfigure.parse(configureJson)
     val ulpack = Ulpack.wrap(configure) {
         putTestRes()

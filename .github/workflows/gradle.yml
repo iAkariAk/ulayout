@@ -34,14 +34,14 @@ jobs:
         uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
 
       - name: Build dist
-        run: chmod +x ./gradlew && ./gradlew core:jsBrowserDistribution
+        run: chmod +x ./gradlew && ./gradlew app:jsBrowserDistribution
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           token: ${{ secrets.ULAYOUT_TOKEN }}
           branch: gh-pages
-          folder: core/build/dist/js/productionExecutable
+          folder: app/build/dist/js/productionExecutable
           force: true
           commit-message: website deploy
           repository-name: iAkariAk/ulayout.github.io

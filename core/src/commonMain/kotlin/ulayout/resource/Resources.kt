@@ -1,7 +1,7 @@
 package com.akari.ulayout.resource
 
-import com.goncalossilva.resources.Resource
 import okio.Path.Companion.toPath
+import ulayout.resource.ResourceAccessor
 
 internal abstract class Resources(
     protected val rootPath: String = ""
@@ -10,7 +10,7 @@ internal abstract class Resources(
     constructor(parent: Resources, path: String) : this(parent.rootPath, path)
 
     private fun normalizePath(path: String) = (rootPath.toPath() / path.toPath()).normalized().toString()
-    protected fun text(path: String) = Resource(normalizePath(path)).readText()
-    protected fun bytes(path: String) = Resource(normalizePath(path)).readBytes()
+    protected fun text(path: String) = ResourceAccessor.readText(normalizePath(path).toPath())
+    protected fun bytes(path: String) = ResourceAccessor.readBytes(normalizePath(path).toPath())
     protected fun image(path: String) = ImageResource.fromAssets(normalizePath(path))
 }

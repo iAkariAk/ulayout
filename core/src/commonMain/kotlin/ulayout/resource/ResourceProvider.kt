@@ -1,9 +1,8 @@
 package com.akari.ulayout.resource
 
 import com.akari.ulayout.util.pathNormalize
-import com.akari.ulayout.util.readTextOrNull
-import com.goncalossilva.resources.Resource
 import okio.Path.Companion.toPath
+import ulayout.resource.ResourceAccessor
 
 interface ResourceProvider {
     operator fun get(path: String): String?
@@ -55,9 +54,8 @@ class BuiltinResourceProvider : ResourceProvider {
             ?.let { ("./assets/ulayout/".toPath() / it.toPath()).normalized().toString() }
 
     override fun get(path: String): String? =
-        getActualPathOrNull(path)
-            ?.let(::Resource)
-            ?.readTextOrNull()
+        getActualPathOrNull(path)?.toPath()
+            ?.let(ResourceAccessor::readTextOrNull)
 
     override suspend fun getImage(path: String): ImageResource? {
         return ImageResource.fromData(
