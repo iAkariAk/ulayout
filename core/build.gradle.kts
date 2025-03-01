@@ -19,7 +19,6 @@ kotlin {
                 api(libs.okio)
                 api(libs.kotlinx.coroutines)
                 api(libs.kotlinx.html)
-                api(kotlinWrappers.browser)
                 api(libs.kotlinx.serialization.json)
             }
         }
