@@ -61,7 +61,7 @@ fun ResourceAccessor.getImage(path: Path) = suspendedLazy {
     )
 }
 
-fun ImageResource.Companion.fromAssets(
+suspend fun ImageResource.Companion.fromAssets(
     imagePath: String,
     descriptionPath: String = "$imagePath.sd.json"
 ) = fromData(

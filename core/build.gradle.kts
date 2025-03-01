@@ -20,6 +20,8 @@ kotlin {
                 api(libs.kotlinx.coroutines)
                 api(libs.kotlinx.html)
                 api(libs.kotlinx.serialization.json)
+                api(kotlinWrappers.js)
+                implementation(npm("jszip", "3.10.1"))
             }
         }
         commonTest {

@@ -2,7 +2,6 @@ package com.akari.app
 
 import com.akari.ulayout.AppCallbacks
 import com.akari.ulayout.Ulayout
-import com.akari.ulayout.define
 import com.akari.ulayout.intent.LevelIntents
 import com.akari.ulayout.intent.ScreenIntents
 import com.akari.ulayout.resource.accessor.ResourceAccessor
@@ -23,11 +22,13 @@ import org.w3c.dom.HTMLCanvasElement
 
 
 suspend fun main() {
-    Ulayout.define("my-element")
-    document.body?.innerHTML = """
-        <my-element ull="Ciallo"></my-element>
-    """.trimIndent()
-    return
+//    val zra = ZipResourceAccessor.open(ResourceAccessor.readBytes("test.zip".toPath()))
+//    println(zra.readText("configure.json".toPath()))
+//    Ulayout.define("my-element")
+//    document.body?.innerHTML = """
+//        <my-element ull="Ciallo"></my-element>
+//    """.trimIndent()
+//    return
     runCatching {
         runApp()
     }.onFailure { e ->
