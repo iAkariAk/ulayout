@@ -2,6 +2,7 @@ package com.akari.app
 
 import com.akari.ulayout.AppCallbacks
 import com.akari.ulayout.Ulayout
+import com.akari.ulayout.define
 import com.akari.ulayout.intent.LevelIntents
 import com.akari.ulayout.intent.ScreenIntents
 import com.akari.ulayout.resource.accessor.ResourceAccessor
@@ -20,7 +21,13 @@ import kotlinx.html.style
 import okio.Path.Companion.toPath
 import org.w3c.dom.HTMLCanvasElement
 
+
 suspend fun main() {
+    Ulayout.define("my-element")
+    document.body?.innerHTML = """
+        <my-element ull="Ciallo"></my-element>
+    """.trimIndent()
+    return
     runCatching {
         runApp()
     }.onFailure { e ->
