@@ -1,9 +1,9 @@
-package ulayout.resource.accessor
+package com.akari.ulayout.resource.accessor
 
+import com.akari.ulayout.util.normalizeToString
 import okio.Path
 import org.w3c.dom.HTMLImageElement
 import org.w3c.xhr.XMLHttpRequest
-import ulayout.util.normalizeToString
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine

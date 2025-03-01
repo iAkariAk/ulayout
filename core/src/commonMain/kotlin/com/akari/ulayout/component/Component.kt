@@ -1,13 +1,13 @@
 package com.akari.ulayout.component
 
 import com.akari.ulayout.AppCallbacks
+import com.akari.ulayout.Environment
 import com.akari.ulayout.graphics.Rect
 import com.akari.ulayout.graphics.rect
 import com.akari.ulayout.intent.Events
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import org.w3c.dom.CanvasRenderingContext2D
-import ulayout.Environment
 
 @Serializable
 sealed class Component {

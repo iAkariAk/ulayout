@@ -24,7 +24,6 @@ import okio.Path.Companion.toPath
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.pointerevents.PointerEvent
-import ulayout.Environment
 import kotlin.properties.Delegates
 
 fun interface AppCallbacks {

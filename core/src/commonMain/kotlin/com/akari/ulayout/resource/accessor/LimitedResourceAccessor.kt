@@ -1,7 +1,7 @@
-package ulayout.resource.accessor
+package com.akari.ulayout.resource.accessor
 
+import com.akari.ulayout.util.contains
 import okio.Path
-import ulayout.util.contains
 
 class LimitedResourceAccessor(
     private val limit: Path,

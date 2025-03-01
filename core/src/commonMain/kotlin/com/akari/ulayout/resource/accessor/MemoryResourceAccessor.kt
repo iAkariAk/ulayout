@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalEncodingApi::class)
 
-package ulayout.resource.accessor
+package com.akari.ulayout.resource.accessor
 
 import okio.Path
 import kotlin.io.encoding.Base64

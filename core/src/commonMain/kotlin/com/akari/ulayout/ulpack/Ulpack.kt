@@ -1,7 +1,7 @@
 package com.akari.ulayout.ulpack
 
+import com.akari.ulayout.resource.accessor.*
 import okio.Path
-import ulayout.resource.accessor.*
 
 
 class Ulpack private constructor(

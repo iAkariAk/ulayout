@@ -4,13 +4,13 @@ package com.akari.ulayout.resource
 
 import com.akari.ulayout.graphics.DomImage
 import com.akari.ulayout.graphics.ScaleDescription
+import com.akari.ulayout.resource.accessor.ResourceAccessor
+import com.akari.ulayout.resource.accessor.attachTo
 import com.akari.ulayout.util.UlayoutJson
+import com.akari.ulayout.util.appendSuffix
 import com.akari.ulayout.util.suspendedLazy
 import okio.Path
 import okio.Path.Companion.toPath
-import ulayout.resource.accessor.ResourceAccessor
-import ulayout.resource.accessor.attachTo
-import ulayout.util.appendSuffix
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine

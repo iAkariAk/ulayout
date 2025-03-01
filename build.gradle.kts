@@ -32,6 +32,7 @@ subprojects {
     tasks.withType<KotlinJsCompile> {
         compilerOptions {
             target = "es2015"
+            useEsClasses = true
         }
     }
 }

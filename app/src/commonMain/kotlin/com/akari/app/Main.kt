@@ -4,6 +4,7 @@ import com.akari.ulayout.AppCallbacks
 import com.akari.ulayout.Ulayout
 import com.akari.ulayout.intent.LevelIntents
 import com.akari.ulayout.intent.ScreenIntents
+import com.akari.ulayout.resource.accessor.ResourceAccessor
 import com.akari.ulayout.then
 import com.akari.ulayout.ulpack.UlayoutConfigure
 import com.akari.ulayout.ulpack.Ulpack
@@ -18,7 +19,6 @@ import kotlinx.html.js.div
 import kotlinx.html.style
 import okio.Path.Companion.toPath
 import org.w3c.dom.HTMLCanvasElement
-import ulayout.resource.accessor.ResourceAccessor
 
 suspend fun main() {
     runCatching {

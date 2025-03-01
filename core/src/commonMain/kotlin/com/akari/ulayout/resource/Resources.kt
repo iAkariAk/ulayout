@@ -1,8 +1,8 @@
 package com.akari.ulayout.resource
 
+import com.akari.ulayout.resource.accessor.ResourceAccessor
 import okio.Path
 import okio.Path.Companion.toPath
-import ulayout.resource.accessor.ResourceAccessor
 
 internal abstract class Resources(
     protected val rootPath: Path = ".".toPath()

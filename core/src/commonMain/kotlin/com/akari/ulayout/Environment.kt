@@ -1,7 +1,7 @@
-package ulayout
+package com.akari.ulayout
 
+import com.akari.ulayout.resource.accessor.ResourceAccessor
 import com.akari.ulayout.template.TemplateProvider
-import ulayout.resource.accessor.ResourceAccessor
 
 class Environment(
     val templates: TemplateProvider,

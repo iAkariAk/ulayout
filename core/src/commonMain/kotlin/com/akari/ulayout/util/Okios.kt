@@ -1,4 +1,4 @@
-package ulayout.util
+package com.akari.ulayout.util
 
 import okio.Path
 import okio.Path.Companion.toPath

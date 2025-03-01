@@ -1,4 +1,4 @@
-package ulayout.resource.accessor
+package com.akari.ulayout.resource.accessor
 
 import okio.Path
 import okio.Path.Companion.toPath
