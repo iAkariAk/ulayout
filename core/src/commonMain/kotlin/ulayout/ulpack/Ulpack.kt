@@ -1,31 +1,16 @@
 package com.akari.ulayout.ulpack
 
-import com.akari.ulayout.resource.*
-import kotlinx.serialization.json.Json
+import okio.Path
+import ulayout.resource.accessor.*
 
 
 class Ulpack private constructor(
     val configure: UlayoutConfigure,
     private val storage: ResourceStorage
-) : ResourceProvider by CatchableResourceProvider(
-    BuiltinResourceProvider()
-            + MemoryResourceProvider(storage)
-) {
+) : ResourceAccessor by (BuiltinResourceAccessor + MemoryResourceAccessor(storage)).catch() {
     companion object {
-        fun fromJson(json: String): Ulpack {
-            val storage = Json.decodeFromString<ResourceStorage>(json)
-            val configureJson = requireNotNull(storage["configure_old.json"])
-            return Ulpack(
-                configure = UlayoutConfigure.parse(configureJson),
-                storage = storage
-            )
-        }
-
         fun wrap(
-            configure: UlayoutConfigure,
-            storageBuilder: MutableMap<String, String>.() -> Unit = {}
-        ) =
-            Ulpack(configure, buildMap(storageBuilder))
+            configure: UlayoutConfigure, storageBuilder: MutableMap<Path, String>.() -> Unit = {}
+        ) = Ulpack(configure, buildMap(storageBuilder))
     }
-
 }

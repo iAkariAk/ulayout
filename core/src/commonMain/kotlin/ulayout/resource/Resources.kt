@@ -1,16 +1,21 @@
 package com.akari.ulayout.resource
 
+import okio.Path
 import okio.Path.Companion.toPath
-import ulayout.resource.ResourceAccessor
+import ulayout.resource.accessor.ResourceAccessor
 
 internal abstract class Resources(
-    protected val rootPath: String = ""
+    protected val rootPath: Path = ".".toPath()
 ) {
-    constructor(parent: String, path: String) : this((parent.toPath() / path.toPath()).normalized().toString())
-    constructor(parent: Resources, path: String) : this(parent.rootPath, path)
+    constructor(parent: Path, path: Path) : this(parent / path)
+    constructor(parent: Resources, path: Path) : this(parent.rootPath, path)
 
-    private fun normalizePath(path: String) = (rootPath.toPath() / path.toPath()).normalized().toString()
-    protected fun text(path: String) = ResourceAccessor.readText(normalizePath(path).toPath())
-    protected fun bytes(path: String) = ResourceAccessor.readBytes(normalizePath(path).toPath())
-    protected fun image(path: String) = ImageResource.fromAssets(normalizePath(path))
+    constructor(rootPath: String) : this(rootPath.toPath())
+    constructor(parent: String, path: String) : this(parent.toPath(), path.toPath())
+    constructor(parent: Resources, path: String) : this(parent.rootPath, path.toPath())
+
+    private fun absPath(path: String) = rootPath / path.toPath()
+    protected fun text(path: String) = ResourceAccessor.readText(absPath(path))
+    protected fun bytes(path: String) = ResourceAccessor.readBytes(absPath(path))
+    protected fun image(path: String) = ResourceAccessor.getImage(absPath(path))
 }

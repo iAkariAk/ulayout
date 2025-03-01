@@ -8,8 +8,8 @@ import com.akari.ulayout.util.UlayoutJson
 import com.akari.ulayout.util.suspendedLazy
 import okio.Path
 import okio.Path.Companion.toPath
-import ulayout.resource.ResourceAccessor
-import ulayout.resource.attachTo
+import ulayout.resource.accessor.ResourceAccessor
+import ulayout.resource.accessor.attachTo
 import ulayout.util.appendSuffix
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException

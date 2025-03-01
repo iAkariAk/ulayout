@@ -15,7 +15,7 @@ data class Font(
             font.load().then(font => {
                 document.fonts.add(font)
             })
-        """.trimIndent()
+        """.trimIndent() // FIXME Instead of using kotlin-wrappers.
         ) as Promise<dynamic>
         promise.asDeferred().await()
     }

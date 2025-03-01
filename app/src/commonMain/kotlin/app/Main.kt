@@ -18,7 +18,7 @@ import kotlinx.html.js.div
 import kotlinx.html.style
 import okio.Path.Companion.toPath
 import org.w3c.dom.HTMLCanvasElement
-import ulayout.resource.ResourceAccessor
+import ulayout.resource.accessor.ResourceAccessor
 
 suspend fun main() {
     runCatching {

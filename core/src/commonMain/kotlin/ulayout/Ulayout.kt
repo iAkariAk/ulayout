@@ -9,6 +9,7 @@ import com.akari.ulayout.graphics.bounds
 import com.akari.ulayout.graphics.drawImageWithScale
 import com.akari.ulayout.intent.Intent
 import com.akari.ulayout.intent.ScreenIntents
+import com.akari.ulayout.resource.getImage
 import com.akari.ulayout.template.BuiltinTemplates
 import com.akari.ulayout.template.TemplateProvider
 import com.akari.ulayout.template.expandAll
@@ -19,9 +20,11 @@ import kotlinx.browser.window
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okio.Path.Companion.toPath
 import org.w3c.dom.CanvasRenderingContext2D
 import org.w3c.dom.HTMLCanvasElement
 import org.w3c.dom.pointerevents.PointerEvent
+import ulayout.Environment
 import kotlin.properties.Delegates
 
 fun interface AppCallbacks {
@@ -81,7 +84,10 @@ class Ulayout(
 
     private val configure = ulpack.configure
     private val context = canvas.getContext("2d") as CanvasRenderingContext2D
-    private val templateProvider = TemplateProvider()
+    private val env = Environment(
+        templates = TemplateProvider(),
+        resources = ulpack
+    )
     private var currentRoute: String? = null
     private var recomposeCount = 0
     private lateinit var availableComponents: List<VisualComponent>
@@ -98,8 +104,8 @@ class Ulayout(
                     )?.onClick(callbacks)
                 }
             })
-        templateProvider += BuiltinTemplates
-        templateProvider += configure.templates
+        env.templates += BuiltinTemplates
+        env.templates += configure.templates
     }
 
     suspend fun start() {
@@ -111,7 +117,7 @@ class Ulayout(
     private fun getAvailableComponents(): List<VisualComponent> {
         val route = currentRoute?.let(configure.routes::get) ?: emptyList()
         val components = configure.common + route
-        return components.expandAll(templateProvider)
+        return components.expandAll(env.templates)
     }
 
     suspend fun recompose(newRoute: String? = null) {
@@ -124,7 +130,7 @@ class Ulayout(
     }
 
     private suspend fun CanvasRenderingContext2D.fillBackground() {
-        val background = ulpack.getImage(configure.style.background) ?: Res.background.get()
+        val background = ulpack.getImage(configure.style.background.toPath())?.get() ?: Res.background.get()
         drawImageWithScale(
             background.image,
             canvas.bounds,
@@ -133,7 +139,7 @@ class Ulayout(
     }
 
     private suspend fun drawComponent(component: VisualComponent) {
-        component.init(ulpack)
+        component.init(env)
         component.paint(context)
     }
 }
@@ -144,8 +150,8 @@ object UlayoutDefaults {
         Font(
             family = "ZhanKuKuaiLeTi2016",
             paths = listOf(
-                "/assets/ulayout/font/ZhanKuKuaiLeTi2016.woff2",
-                "/assets/ulayout/font/ZhanKuKuaiLeTi2016.ttf",
+                "./assets/ulayout/font/ZhanKuKuaiLeTi2016.woff2",
+                "./assets/ulayout/font/ZhanKuKuaiLeTi2016.ttf",
             )
         )
     )

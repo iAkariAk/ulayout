@@ -1,4 +1,4 @@
-package ulayout.resource
+package ulayout.resource.accessor
 
 import okio.Path
 import org.w3c.dom.HTMLImageElement
@@ -11,9 +11,9 @@ import kotlin.coroutines.suspendCoroutine
 interface ResourceAccessor {
     companion object Default : ResourceAccessor {
         private fun get(path: Path, config: (XMLHttpRequest.() -> Unit) = {}) = XMLHttpRequest().apply {
-            open("GET", path.normalized().toString(), false)
+            open("GET", path.normalizeToString(), false)
+            println("GET ${path.normalizeToString()}")
             config()
-            println(responseURL)
             send()
         }
 
@@ -39,7 +39,10 @@ interface ResourceAccessor {
     fun readBytesOrNull(path: Path): ByteArray?
     fun readText(path: Path): String = readTextOrNull(path) ?: error("Cannot found $path")
     fun readBytes(path: Path): ByteArray = readBytesOrNull(path) ?: error("Cannot found $path")
-    fun requireExists(path: Path) = require(!exists(path)) { "Cannot found $path)" }
+    fun requireExists(path: Path?): Path {
+        require(path != null && exists(path)) { "Cannot found $path)" }
+        return path
+    }
     suspend fun <T> attach(path: Path, attach: suspend (String) -> T): T {
         requireExists(path)
         return attach(path.normalizeToString())

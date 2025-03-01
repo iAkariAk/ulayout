@@ -1,6 +1,6 @@
 {
   "style": {
-    "background": "builtin@game/AlmanacUI/image_almanac_stone_tablet.png"
+    "background": "@builtin/game/AlmanacUI/image_almanac_stone_tablet.png"
   },
   "templates": {
     "TwoText": {

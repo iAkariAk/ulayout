@@ -4,23 +4,25 @@ import com.akari.ulayout.AppCallbacks
 import com.akari.ulayout.graphics.Rect
 import com.akari.ulayout.graphics.rect
 import com.akari.ulayout.intent.Events
-import com.akari.ulayout.resource.ResourceProvider
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import org.w3c.dom.CanvasRenderingContext2D
+import ulayout.Environment
 
 @Serializable
 sealed class Component {
     abstract val x: Int
     abstract val y: Int
 
-    private var _resources: ResourceProvider? = null
-    protected val resources
-        get() = checkNotNull(_resources) {
+    @Transient
+    private var _env: Environment? = null
+    protected val env
+        get() = checkNotNull(_env) {
             "Component is not initialized"
         }
 
-    fun init(provider: ResourceProvider) {
-        _resources = provider
+    fun init(env: Environment) {
+        _env = env
     }
 }
 

@@ -23,14 +23,9 @@ kotlin {
 
         val main by compilations.getting
         val test by compilations.getting
-        listOf(main,test).forEach {  compilation->
+        listOf(main, test).forEach { compilation ->
             project.tasks.named<Copy>(compilation.processResourcesTaskName) {
-                println("COPYYYY")
-                from(project(":core").projectDir.resolve("src/commonMain/resources").also {
-                    println(it)
-                    println(it.list().contentToString())
-                })
-//            into("$projectDir/build/processedResources/js/main")
+                from(project(":core").projectDir.resolve("src/commonMain/resources"))
             }
         }
 
