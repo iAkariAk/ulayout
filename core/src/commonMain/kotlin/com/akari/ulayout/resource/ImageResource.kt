@@ -52,7 +52,7 @@ suspend fun ByteArray.encodeToDomImage() = suspendCoroutine { continuation ->
     }
 }
 
-fun ResourceAccessor.getImage(path: Path) = suspendedLazy {
+internal fun ResourceAccessor.getImage(path: Path) = suspendedLazy {
     ImageResource(
         image = attachTo(path, DomImage()),
         scaleDescription = readTextOrNull(path.appendSuffix(".sd.json"))?.let {
@@ -61,7 +61,7 @@ fun ResourceAccessor.getImage(path: Path) = suspendedLazy {
     )
 }
 
-suspend fun ImageResource.Companion.fromAssets(
+internal suspend fun ImageResource.Companion.fromAssets(
     imagePath: String,
     descriptionPath: String = "$imagePath.sd.json"
 ) = fromData(
@@ -69,7 +69,7 @@ suspend fun ImageResource.Companion.fromAssets(
     descriptionJson = ResourceAccessor.readTextOrNull(descriptionPath.toPath())
 )
 
-fun ImageResource.Companion.fromData(
+internal fun ImageResource.Companion.fromData(
     imageSrcData: String,
     descriptionJson: String?,
 ) = suspendedLazy<ImageResource> {

@@ -16,12 +16,12 @@ sealed class Component {
 
     @Transient
     private var _env: Environment? = null
-    protected val env
+    internal val env
         get() = checkNotNull(_env) {
             "Component is not initialized"
         }
 
-    fun init(env: Environment) {
+    internal fun init(env: Environment) {
         _env = env
     }
 }

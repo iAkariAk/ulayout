@@ -1,13 +1,13 @@
 package com.akari.ulayout.util
 
-fun interface SuspendedProvider<out T> {
+internal fun interface SuspendedProvider<out T> {
     suspend fun get(): T
 }
 
 @Suppress("ClassName")
 private object UNINITIALIZED_VALUE
 
-fun <T> suspendedLazy(
+internal fun <T> suspendedLazy(
     initializer: suspend () -> T
 ) = object : SuspendedProvider<T> {
     private var value: Any? = UNINITIALIZED_VALUE
@@ -22,7 +22,7 @@ fun <T> suspendedLazy(
     override fun toString() = "SuspendedLazyProvider"
 }
 
-fun <T, R> SuspendedProvider<T>.map(
+internal fun <T, R> SuspendedProvider<T>.map(
     transform: (T) -> R
 ): SuspendedProvider<R> = suspendedLazy {
     transform(get())

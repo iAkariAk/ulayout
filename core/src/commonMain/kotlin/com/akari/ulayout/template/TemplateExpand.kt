@@ -33,7 +33,7 @@ private fun Template.expandArgs(args: Map<String, JsonElement>): List<Map<String
     return expand.map { it.expandArgs() }
 }
 
-fun TemplateRef.expand(templateProvider: TemplateProvider): List<Component> {
+internal fun TemplateRef.expand(templateProvider: TemplateProvider): List<Component> {
     val template = templateProvider[name]
     return template?.expandArgs(args)?.map { obj ->
         obj.mapValues { (key, value) ->
@@ -48,7 +48,7 @@ fun TemplateRef.expand(templateProvider: TemplateProvider): List<Component> {
 }
 
 
-fun List<Component>.expandAll(templateProvider: TemplateProvider): List<VisualComponent> =
+internal fun List<Component>.expandAll(templateProvider: TemplateProvider): List<VisualComponent> =
     flatMap { component ->
         when (component) {
             is TemplateRef -> component.expand(templateProvider).expandAll(templateProvider)// recursive

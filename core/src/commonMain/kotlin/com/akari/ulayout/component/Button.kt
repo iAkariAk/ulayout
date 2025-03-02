@@ -40,7 +40,7 @@ data class Button(
 }
 
 enum class ButtonStyle(
-    val res: SuspendedProvider<ImageResource>
+    internal val res: SuspendedProvider<ImageResource>
 ) {
     @SerialName("almanac")
     Almanac(Res.Button.almanac),

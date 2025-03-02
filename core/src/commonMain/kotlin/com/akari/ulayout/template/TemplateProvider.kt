@@ -1,6 +1,6 @@
 package com.akari.ulayout.template
 
-class TemplateProvider {
+internal class TemplateProvider {
     private val storage = mutableMapOf<String, Template>()
 
     fun put(name: String, template: Template) {
