@@ -54,3 +54,10 @@ fun Ulayout.Companion.define(name: String = "ul-layout") {
     }
 //    attachToCanvas()
 }
+
+
+@OptIn(ExperimentalJsExport::class)
+@JsExport
+fun setup() {
+    Ulayout.define()
+}

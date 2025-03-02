@@ -9,7 +9,9 @@ kotlin {
     js(IR) {
         browser {
             useEsModules()
+            useCommonJs()
         }
+        binaries.library()
     }
 
     sourceSets {
