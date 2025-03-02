@@ -2,15 +2,14 @@
 
 package com.akari.ulayout
 
-import com.akari.ulayout.resource.accessor.ResourceAccessor
-import com.akari.ulayout.ulpack.UlayoutConfigure
+import com.akari.ulayout.dom.UrlSource
+import com.akari.ulayout.ulpack.Ulpack
 import com.akari.ulayout.util.jsFunction
 import kotlinx.browser.document
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import okio.Path.Companion.toPath
 import org.w3c.dom.HTMLCanvasElement
 
 fun Ulayout.Companion.define(name: String = "ul-layout") {
@@ -36,18 +35,22 @@ fun Ulayout.Companion.define(name: String = "ul-layout") {
  
             };
         customElements.define('$name', element);
-    """.trimIndent()) // Oh shit
+    """.trimIndent()
+    ) // Oh shit
     var job: Job? = null
-    fun attachToCanvas() {
+    fun attachToCanvas(ulpack: Ulpack) {
         job?.cancel()
         job = GlobalScope.launch {
-            val configureJson = ResourceAccessor.readText("configure.json".toPath())
-            val configure = UlayoutConfigure.parse(configureJson)
-            Ulayout(canvas, configure)
+            Ulayout(canvas, ulpack)
         }
     }
     wrap(canvas) { name, oldValue, newValue ->
-        attachToCanvas()
+        GlobalScope.launch {
+            if (name != "ulpack") return@launch
+            val src = UrlSource(newValue.unsafeCast<String>())
+            val ulpack = Ulpack.fromZip(src)
+            attachToCanvas(ulpack)
+        }
     }
 //    attachToCanvas()
 }

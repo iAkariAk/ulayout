@@ -4,6 +4,8 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.*
 
+typealias TemplateStorage = Map<String, Template>
+
 @Serializable
 data class Template(
     val params: Map<String, Param> = emptyMap(),

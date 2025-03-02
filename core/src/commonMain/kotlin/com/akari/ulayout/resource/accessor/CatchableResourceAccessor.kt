@@ -10,15 +10,15 @@ class CatchableResourceAccessor(
     private val catchesForBytes = mutableMapOf<Path, ByteArray?>()
     private val catchesForAttach = mutableMapOf<Path, Any?>()
 
-    override fun exists(path: Path) = catchesForExists.getOrPut(path) {
+    override suspend fun exists(path: Path) = catchesForExists.getOrPut(path) {
         delegate.exists(path)
     }
 
-    override fun readTextOrNull(path: Path) = catchesForText.getOrPut(path) {
+    override suspend fun readTextOrNull(path: Path) = catchesForText.getOrPut(path) {
         delegate.readTextOrNull(path)
     }
 
-    override fun readBytesOrNull(path: Path) = catchesForBytes.getOrPut(path) {
+    override suspend fun readBytesOrNull(path: Path) = catchesForBytes.getOrPut(path) {
         delegate.readBytesOrNull(path)
     }
 

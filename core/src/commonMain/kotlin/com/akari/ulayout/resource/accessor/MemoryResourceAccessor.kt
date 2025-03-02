@@ -13,12 +13,14 @@ import kotlin.io.encoding.ExperimentalEncodingApi
  */
 typealias ResourceStorage = Map<Path, String>
 
+fun ResourceStorage.asMemoryRA() = MemoryResourceAccessor(this)
+
 class MemoryResourceAccessor(
     private val storage: ResourceStorage
 ) : ResourceAccessor {
-    override fun exists(path: Path) = storage.containsKey(path)
-    override fun readTextOrNull(path: Path) = storage[path]
-    override fun readBytesOrNull(path: Path): ByteArray? = readTextOrNull(path)?.let(Base64::decode)
+    override suspend fun exists(path: Path) = storage.containsKey(path)
+    override suspend fun readTextOrNull(path: Path) = storage[path]
+    override suspend fun readBytesOrNull(path: Path): ByteArray? = readTextOrNull(path)?.let(Base64::decode)
     override suspend fun <T> attach(path: Path, attach: suspend (String) -> T): T {
         requireExists(path)
         return attach(readText(path))

@@ -14,14 +14,14 @@ object BuiltinResourceAccessor : ResourceAccessor {
             return (BUILTIN_PATH / shortPath)
         }
 
-    override fun exists(path: Path) = path.actualPath
-        ?.let(ResourceAccessor::exists) == true
+    override suspend fun exists(path: Path) = path.actualPath
+        ?.let { ResourceAccessor.exists(it) } == true
 
-    override fun readTextOrNull(path: Path) = path.actualPath
-        ?.let(ResourceAccessor::readTextOrNull)
+    override suspend fun readTextOrNull(path: Path) = path.actualPath
+        ?.let { ResourceAccessor.readTextOrNull(it) }
 
-    override fun readBytesOrNull(path: Path) = path.actualPath
-        ?.let(ResourceAccessor::readBytesOrNull)
+    override suspend fun readBytesOrNull(path: Path) = path.actualPath
+        ?.let { ResourceAccessor.readBytesOrNull(it) }
 
     override suspend fun <T> attach(path: Path, attach: suspend (String) -> T): T {
         val actualPath = requireExists(path).actualPath!!

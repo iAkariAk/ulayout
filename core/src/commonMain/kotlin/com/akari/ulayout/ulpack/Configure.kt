@@ -1,8 +1,8 @@
 package com.akari.ulayout.ulpack
 
 import com.akari.ulayout.component.Component
-import com.akari.ulayout.template.Template
 import com.akari.ulayout.template.TemplateProvider
+import com.akari.ulayout.template.TemplateStorage
 import com.akari.ulayout.template.expandAll
 import com.akari.ulayout.util.UlayoutJson
 import kotlinx.serialization.Serializable
@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 data class UlayoutConfigure(
     val style: Style = Style.Default,
     val routes: Map<String, List<Component>> = emptyMap(),
-    val templates: Map<String, Template> = emptyMap(),
+    val templates: TemplateStorage = emptyMap(),
     val common: List<Component>
 ) {
     companion object {

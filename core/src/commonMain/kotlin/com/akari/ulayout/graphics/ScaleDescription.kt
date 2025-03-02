@@ -1,5 +1,6 @@
 package com.akari.ulayout.graphics
 
+import com.akari.ulayout.dom.DomImage
 import kotlinx.serialization.Serializable
 import org.w3c.dom.CanvasRenderingContext2D
 

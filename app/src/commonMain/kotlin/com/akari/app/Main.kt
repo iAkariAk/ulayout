@@ -22,13 +22,6 @@ import org.w3c.dom.HTMLCanvasElement
 
 
 suspend fun main() {
-//    val zra = ZipResourceAccessor.open(ResourceAccessor.readBytes("test.zip".toPath()))
-//    println(zra.readText("configure.json".toPath()))
-//    Ulayout.define("my-element")
-//    document.body?.innerHTML = """
-//        <my-element ull="Ciallo"></my-element>
-//    """.trimIndent()
-//    return
     runCatching {
         runApp()
     }.onFailure { e ->

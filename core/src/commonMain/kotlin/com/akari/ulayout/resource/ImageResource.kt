@@ -2,7 +2,7 @@
 
 package com.akari.ulayout.resource
 
-import com.akari.ulayout.graphics.DomImage
+import com.akari.ulayout.dom.DomImage
 import com.akari.ulayout.graphics.ScaleDescription
 import com.akari.ulayout.resource.accessor.ResourceAccessor
 import com.akari.ulayout.resource.accessor.attachTo

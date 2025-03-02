@@ -1,29 +1,28 @@
 package com.akari.ulayout.resource.accessor
 
 import com.akari.ulayout.util.normalizeToString
-import kotlinx.coroutines.await
+import korlibs.io.file.VfsFile
+import korlibs.io.file.std.openAsZip
+import korlibs.io.stream.openAsync
 import okio.Path
-import org.readium.jszip.JSZip
 
 class ZipResourceAccessor(
-    private val jszip: JSZip
+    private val vfs: VfsFile
 ) : ResourceAccessor {
     companion object {
-        suspend fun open(bytes: ByteArray) = ZipResourceAccessor(
-            JSZip().loadAsync(bytes).await()
-        )
+        suspend fun open(bytes: ByteArray): ZipResourceAccessor {
+            return ZipResourceAccessor(
+                bytes.openAsync().openAsZip()
+            )
+        }
     }
 
-    override fun exists(path: Path): Boolean =
-        jszip.file(path.normalizeToString()) != null
+    override suspend fun exists(path: Path): Boolean =
+        vfs[path.normalizeToString()].exists()
 
-    override fun readTextOrNull(path: Path): String? =
-        jszip.file(path.normalizeToString())?.toString()
+    override suspend fun readTextOrNull(path: Path): String? =
+        vfs[path.normalizeToString()].takeIf { it.exists() }?.readString()
 
-    override fun readBytesOrNull(path: Path): ByteArray? = TODO()
-//        jszip.file(path.normalizeToString())?.async<String>("binarystring") { }?.let { bin ->
-//            ByteArray(bin.length) {
-//                bin[it].code.toUByte().toByte()
-//            }
-//        }
+    override suspend fun readBytesOrNull(path: Path): ByteArray? =
+        vfs[path.normalizeToString()].takeIf { it.exists() }?.readBytes()
 }

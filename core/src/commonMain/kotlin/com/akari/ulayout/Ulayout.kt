@@ -10,7 +10,6 @@ import com.akari.ulayout.graphics.drawImageWithScale
 import com.akari.ulayout.intent.Intent
 import com.akari.ulayout.intent.ScreenIntents
 import com.akari.ulayout.resource.getImage
-import com.akari.ulayout.template.BuiltinTemplates
 import com.akari.ulayout.template.TemplateProvider
 import com.akari.ulayout.template.expandAll
 import com.akari.ulayout.ulpack.Style
@@ -92,19 +91,21 @@ class Ulayout(
     private lateinit var availableComponents: List<VisualComponent>
 
     init {
-        canvas.addEventListener(
-            "click",
-            { event ->
-                GlobalScope.launch {
-                    event as PointerEvent
-                    availableComponents.findContained(
-                        event.offsetX,
-                        event.offsetY
-                    )?.onClick(callbacks)
-                }
-            })
-        env.templates += BuiltinTemplates
-        env.templates += configure.templates
+        GlobalScope.launch {
+            canvas.addEventListener(
+                "click",
+                { event ->
+                    GlobalScope.launch {
+                        event as PointerEvent
+                        availableComponents.findContained(
+                            event.offsetX,
+                            event.offsetY
+                        )?.onClick(callbacks)
+                    }
+                })
+            env.templates += Res.templates.get()
+            env.templates += configure.templates
+        }
     }
 
     suspend fun start() {
