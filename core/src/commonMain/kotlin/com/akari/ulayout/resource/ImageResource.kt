@@ -24,7 +24,7 @@ data class ImageResource(
     companion object
 }
 
-suspend fun ByteArray.encodeToDomImage() = suspendCoroutine { continuation ->
+internal fun ByteArray.encodeToBase64(): String {
     // 89504E470D0A1A0A: PNG's magic number
     check(
         this[0] == 0x89.toByte()
@@ -40,8 +40,12 @@ suspend fun ByteArray.encodeToDomImage() = suspendCoroutine { continuation ->
     }
 
     val base64 = Base64.encode(this)
+    return "data:image/png;base64,$base64"
+}
+
+internal suspend fun ByteArray.encodeToDomImage() = suspendCoroutine { continuation ->
     val image = DomImage().apply {
-        src = "data:image/png;base64,$base64"
+        src = encodeToBase64()
     }
 
     image.onload = {

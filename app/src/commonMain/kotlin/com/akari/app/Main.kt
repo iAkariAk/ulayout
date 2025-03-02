@@ -2,6 +2,7 @@ package com.akari.app
 
 import com.akari.ulayout.AppCallbacks
 import com.akari.ulayout.Ulayout
+import com.akari.ulayout.define
 import com.akari.ulayout.intent.LevelIntents
 import com.akari.ulayout.intent.ScreenIntents
 import com.akari.ulayout.resource.accessor.ResourceAccessor
@@ -20,8 +21,11 @@ import kotlinx.html.style
 import okio.Path.Companion.toPath
 import org.w3c.dom.HTMLCanvasElement
 
+fun main() {
+    Ulayout.define()
+}
 
-suspend fun main() {
+suspend fun mainOld() {
     runCatching {
         runApp()
     }.onFailure { e ->
