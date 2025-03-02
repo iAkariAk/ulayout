@@ -19,8 +19,6 @@ class CombinedResourceAccessor(
         if (inner.exists(path)) {
             inner
         } else {
-            println(outer)
-
             outer
         }.attach(path, attach)
 
