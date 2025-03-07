@@ -3,16 +3,16 @@
 package com.akari.ulayout
 
 import com.akari.ulayout.dom.UrlSource
-import com.akari.ulayout.intent.LevelIntents
-import com.akari.ulayout.intent.ScreenIntents
 import com.akari.ulayout.ulpack.Ulpack
 import com.akari.ulayout.util.jsFunction
 import kotlinx.browser.document
-import kotlinx.browser.window
 import kotlinx.coroutines.*
 import org.w3c.dom.HTMLCanvasElement
 
-fun Ulayout.Companion.define(name: String = "ul-layout") {
+fun Ulayout.Companion.define(
+    name: String = "ul-layout",
+    callbacksBuilder: ((default: AppCallbacks) -> AppCallbacks)? = null
+) {
     val canvas = document.createElement("canvas")
         .unsafeCast<HTMLCanvasElement>().apply {
             width = 800
@@ -47,28 +47,7 @@ fun Ulayout.Companion.define(name: String = "ul-layout") {
     fun attachToCanvas(ulpack: Ulpack) {
         job?.cancel()
         job = scope.launch {
-            Ulayout(canvas, ulpack) { callback ->
-                AppCallbacks { intent ->
-                    when (intent) {
-                        is LevelIntents.Goto -> {
-                            window.alert("Want to go to ${intent.destination}.")
-                            true
-                        }
-
-                        is ScreenIntents.Navigate -> {
-                            window.alert("Want to navigate to ${intent.destination}.")
-                            callback.onIntent(intent)
-                        }
-
-                        ScreenIntents.Exit -> {
-                            window.alert("Want to exit.")
-                            true
-                        }
-
-                        else -> false
-                    }
-                } then callback
-            }
+            Ulayout(canvas, ulpack, callbacksBuilder = callbacksBuilder) // compiler can't infer what function invoke
         }
     }
 

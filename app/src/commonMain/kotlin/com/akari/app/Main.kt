@@ -22,7 +22,28 @@ import okio.Path.Companion.toPath
 import org.w3c.dom.HTMLCanvasElement
 
 fun main() {
-    Ulayout.define()
+    Ulayout.define { callback ->
+        AppCallbacks { intent ->
+            when (intent) {
+                is LevelIntents.Goto -> {
+                    window.alert("Want to go to ${intent.destination}.")
+                    true
+                }
+
+                is ScreenIntents.Navigate -> {
+                    window.alert("Want to navigate to ${intent.destination}.")
+                    callback.onIntent(intent)
+                }
+
+                ScreenIntents.Exit -> {
+                    window.alert("Want to exit.")
+                    true
+                }
+
+                else -> false
+            }
+        } then callback
+    }
 }
 
 suspend fun mainOld() {
