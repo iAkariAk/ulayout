@@ -1,6 +1,9 @@
+@file:OptIn(ExperimentalSerializationApi::class)
+
 package com.akari.ulayout.ulpack
 
 import com.akari.ulayout.util.toJsonObject
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialInfo
 import kotlinx.serialization.builtins.MapSerializer
@@ -19,8 +22,9 @@ import kotlinx.serialization.json.jsonObject
 internal annotation class KeyInjured
 
 internal class MapKeyPropagatingSerializer<E>(
+    @Suppress("unused")
     kSerializer: KSerializer<String>, // serialization plugin will propagate String.serializer() as first arg
-    private val eSerializer: KSerializer<E>
+    eSerializer: KSerializer<E>
 ) : KSerializer<Map<String, E>> {
     private val delegateSerializer = MapSerializer(String.serializer(), eSerializer)
     override val descriptor = SerialDescriptor(
