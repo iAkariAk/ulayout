@@ -10,6 +10,13 @@ kotlin {
         browser {
             useEsModules()
             useCommonJs()
+
+            testTask {
+                testLogging.showStandardStreams = true
+                useKarma {
+                    useChromeHeadless()
+                }
+            }
         }
         binaries.library()
     }
@@ -23,13 +30,16 @@ kotlin {
                 api(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.atomicfu.runtime)
                 implementation(libs.korlibs.io)
+                implementation(libs.jetbrains.annonations)
             }
         }
         commonTest {
             dependencies {
-                implementation(kotlin("test"))
+                implementation(libs.kotlin.test)
             }
         }
     }
 }
+
+
 

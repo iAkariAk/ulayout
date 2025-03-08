@@ -4,6 +4,7 @@ import com.akari.ulayout.component.Component
 import com.akari.ulayout.component.TemplateRef
 import com.akari.ulayout.component.VisualComponent
 import com.akari.ulayout.util.UlayoutJson
+import com.akari.ulayout.util.toJsonObject
 import kotlinx.serialization.json.*
 
 
@@ -42,7 +43,7 @@ internal fun TemplateRef.expand(templateProvider: TemplateProvider): List<Compon
                 "y" -> JsonPrimitive(y + value.jsonPrimitive.int)
                 else -> value
             }
-        }.let(::JsonObject)
+        }.toJsonObject()
     }?.map { UlayoutJson.decodeFromJsonElement<Component>(it) }
         ?: error("Cannot expand because template $name not found")
 }

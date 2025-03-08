@@ -12,6 +12,7 @@ import com.akari.ulayout.intent.ScreenIntents
 import com.akari.ulayout.resource.getImage
 import com.akari.ulayout.template.TemplateProvider
 import com.akari.ulayout.template.expandAll
+import com.akari.ulayout.ulpack.Route
 import com.akari.ulayout.ulpack.Style
 import com.akari.ulayout.ulpack.UlayoutConfigure
 import com.akari.ulayout.ulpack.Ulpack
@@ -86,7 +87,7 @@ class Ulayout(
         templates = TemplateProvider(),
         resources = ulpack
     )
-    private var currentRoute: String? = null
+    private var currentRoute: Route? = configure.routes[configure.initRoute]
     private var recomposeCount = 0
     private lateinit var availableComponents: List<VisualComponent>
 
@@ -115,14 +116,13 @@ class Ulayout(
     }
 
     private fun getAvailableComponents(): List<VisualComponent> {
-        val route = currentRoute?.let(configure.routes::get) ?: emptyList()
-        val components = configure.common + route
+        val components = configure.common + (currentRoute?.components ?: emptyList())
         return components.expandAll(env.templates)
     }
 
     suspend fun recompose(newRoute: String? = null) {
-        if (recomposeCount > 0 && newRoute == currentRoute) return // skip
-        currentRoute = newRoute
+        if (recomposeCount > 0 && newRoute == currentRoute?.name) return // skip
+        currentRoute = configure.routes[newRoute]
         availableComponents = getAvailableComponents()
         context.fillBackground()
         availableComponents.forEach { drawComponent(it) }
@@ -130,7 +130,8 @@ class Ulayout(
     }
 
     private suspend fun CanvasRenderingContext2D.fillBackground() {
-        val background = ulpack.getImage(configure.style.background.toPath())?.get() ?: Res.background.get()
+        val path = currentRoute?.background ?: configure.style.background
+        val background = ulpack.getImage(path.toPath()).get()
         drawImageWithScale(
             background.image,
             canvas.bounds,

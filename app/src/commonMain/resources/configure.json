@@ -47,32 +47,36 @@
     }
   },
   "routes": {
-    "Day": [
-      {
-        "type": "Image",
-        "src": "src/images/test.jpg",
-        "x": 100,
-        "y": 100,
-        "width": 120,
-        "height": 120,
-        "events": {
-          "onClick": "@screen:alert(This is Day)"
+    "Day": {
+      "components": [
+        {
+          "type": "Image",
+          "src": "src/images/test.jpg",
+          "x": 100,
+          "y": 100,
+          "width": 120,
+          "height": 120,
+          "events": {
+            "onClick": "@screen:alert(This is Day)"
+          }
         }
-      }
-    ],
-    "Night": [
-      {
-        "type": "Image",
-        "src": "src/images/test.jpg",
-        "x": 100,
-        "y": 100,
-        "width": 120,
-        "height": 120,
-        "events": {
-          "onClick": "@screen:alert(This is Night)"
+      ]
+    },
+    "Night": {
+      "components": [
+        {
+          "type": "Image",
+          "src": "src/images/test.jpg",
+          "x": 100,
+          "y": 100,
+          "width": 120,
+          "height": 120,
+          "events": {
+            "onClick": "@screen:alert(This is Night)"
+          }
         }
-      }
-    ]
+      ]
+    }
   },
   "common": [
     {

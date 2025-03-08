@@ -7,10 +7,15 @@ import com.akari.ulayout.template.expandAll
 import com.akari.ulayout.util.UlayoutJson
 import kotlinx.serialization.Serializable
 
+object DefaultsConfigure {
+    val background = "@builtin/background.png"
+}
+
 @Serializable
 data class UlayoutConfigure(
     val style: Style = Style.Default,
-    val routes: Map<String, List<Component>> = emptyMap(),
+    val initRoute: String? = null,
+    val routes: @Serializable(MapKeyPropagatingSerializer::class) Map<String, Route> = emptyMap(),
     val templates: TemplateStorage = emptyMap(),
     val common: List<Component>
 ) {
@@ -23,7 +28,7 @@ data class UlayoutConfigure(
         provider += templates
         UlayoutConfigure(
             style = style,
-            routes = routes.mapValues { (_, value) -> value.expandAll(provider) },
+            routes = routes.mapValues { (_, value) -> value.expand(provider) },
             templates = templates,
             common = common.expandAll(provider)
         )
@@ -32,10 +37,21 @@ data class UlayoutConfigure(
 
 @Serializable
 data class Style(
-    val background: String = "#builtin:assets/ulayout/background.png",
+    val background: String = DefaultsConfigure.background,
 ) {
     companion object {
         val Default = Style()
     }
 }
 
+@Serializable
+data class Route(
+    @KeyInjured
+    val name: String,
+    val background: String = DefaultsConfigure.background,
+    val components: List<Component>
+) {
+    internal fun expand(templateProvider: TemplateProvider) = copy(
+        components = components.expandAll(templateProvider)
+    )
+}
