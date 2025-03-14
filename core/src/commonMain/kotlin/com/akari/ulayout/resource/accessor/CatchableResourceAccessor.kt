@@ -14,12 +14,12 @@ class CatchableResourceAccessor(
         delegate.exists(path)
     }
 
-    override suspend fun readTextOrNull(path: Path) = catchesForText.getOrPut(path) {
-        delegate.readTextOrNull(path)
+    override suspend fun readTextOrNull(path: Path, range: IntRange?) = catchesForText.getOrPut(path) {
+        delegate.readTextOrNull(path, range)
     }
 
-    override suspend fun readBytesOrNull(path: Path) = catchesForBytes.getOrPut(path) {
-        delegate.readBytesOrNull(path)
+    override suspend fun readBytesOrNull(path: Path, range: IntRange?): ByteArray? = catchesForBytes.getOrPut(path) {
+        delegate.readBytesOrNull(path, range)
     }
 
     @Suppress("UNCHECKED_CAST")

@@ -13,18 +13,18 @@ interface ResourceAccessor {
         override suspend fun exists(path: Path) =
             path.normalizeToString().toHttpUrl().exists()
 
-        override suspend fun readTextOrNull(path: Path): String? =
-            path.normalizeToString().toHttpUrl().readTextOrNull()
+        override suspend fun readTextOrNull(path: Path, range: IntRange?): String? =
+            path.normalizeToString().toHttpUrl().readTextOrNull(range)
 
-        override suspend fun readBytesOrNull(path: Path): ByteArray? =
-            path.normalizeToString().toHttpUrl().readBytesOrNull()
+        override suspend fun readBytesOrNull(path: Path, range: IntRange?): ByteArray? =
+            path.normalizeToString().toHttpUrl().readBytesOrNull(range)
     }
 
     suspend fun exists(path: Path): Boolean
-    suspend fun readTextOrNull(path: Path): String?
-    suspend fun readBytesOrNull(path: Path): ByteArray?
+    suspend fun readTextOrNull(path: Path, range: IntRange? = null): String?
+    suspend fun readBytesOrNull(path: Path, range: IntRange? = null): ByteArray?
     suspend fun readText(path: Path): String = readTextOrNull(path) ?: error("Cannot found $path")
-    suspend fun readBytes(path: Path): ByteArray = readBytesOrNull(path) ?: error("Cannot found $path")
+    suspend fun readBytes(path: Path, range: IntRange? = null): ByteArray = readBytesOrNull(path) ?: error("Cannot found $path")
     suspend fun requireExists(path: Path?): Path {
         require(path != null && exists(path)) { "Cannot found $path)" }
         return path

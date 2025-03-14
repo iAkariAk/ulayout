@@ -19,11 +19,11 @@ class AliasResourceAccessor(
     override suspend fun exists(path: Path) = path.actualPath
         ?.let { ra.exists(it) } == true
 
-    override suspend fun readTextOrNull(path: Path) = path.actualPath
-        ?.let { ra.readTextOrNull(it) }
+    override suspend fun readTextOrNull(path: Path, range: IntRange?) = path.actualPath
+        ?.let { ra.readTextOrNull(it, range) }
 
-    override suspend fun readBytesOrNull(path: Path) = path.actualPath
-        ?.let { ra.readBytesOrNull(it) }
+    override suspend fun readBytesOrNull(path: Path, range: IntRange?): ByteArray? = path.actualPath
+        ?.let { ra.readBytesOrNull(it, range) }
 
     override suspend fun <T> attach(path: Path, attach: suspend (String) -> T): T {
         val actualPath = requireExists(path).actualPath!!

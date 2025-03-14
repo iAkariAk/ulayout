@@ -7,14 +7,14 @@ class LimitedResourceAccessor(
     private val limit: Path,
     private val delegate: ResourceAccessor
 ) : ResourceAccessor by delegate {
-    override suspend fun readBytesOrNull(path: Path): ByteArray? {
+    override suspend fun readBytesOrNull(path: Path, range: IntRange?): ByteArray? {
         checkValid(path)
-        return delegate.readBytesOrNull(path)
+        return delegate.readBytesOrNull(path, range)
     }
 
-    override suspend fun readTextOrNull(path: Path): String? {
+    override suspend fun readTextOrNull(path: Path, range: IntRange?): String? {
         checkValid(path)
-        return delegate.readTextOrNull(path)
+        return delegate.readTextOrNull(path, range)
     }
 
     override suspend fun exists(path: Path): Boolean {

@@ -5,6 +5,7 @@ import com.akari.ulayout.util.normalizeToString
 import korlibs.io.file.VfsFile
 import korlibs.io.file.std.openAsZip
 import korlibs.io.stream.openAsync
+import korlibs.io.util.length
 import okio.ByteString.Companion.toByteString
 import okio.Path
 
@@ -22,11 +23,17 @@ class ZipResourceAccessor(
     override suspend fun exists(path: Path): Boolean =
         vfs[path.normalizeToString()].exists()
 
-    override suspend fun readTextOrNull(path: Path): String? =
-        vfs[path.normalizeToString()].takeIf { it.exists() }?.readString()
+    override suspend fun readTextOrNull(path: Path, range: IntRange?): String? {
+        val vfsFile = vfs[path.normalizeToString()].takeIf { it.exists() }
+        return if (range == null) vfsFile?.readString()
+        else vfsFile?.readChunk(range.first.toLong(), range.length).toString()
+    }
 
-    override suspend fun readBytesOrNull(path: Path): ByteArray? =
-        vfs[path.normalizeToString()].takeIf { it.exists() }?.readBytes()
+    override suspend fun readBytesOrNull(path: Path, range: IntRange?): ByteArray? {
+        val vfsFile = vfs[path.normalizeToString()].takeIf { it.exists() }
+        return if (range == null) vfsFile?.readBytes()
+        else vfsFile?.readChunk(range.first.toLong(), range.length)
+    }
 
     override suspend fun <T> attach(path: Path, attach: suspend (String) -> T): T {
         requireExists(path)

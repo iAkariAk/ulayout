@@ -11,15 +11,21 @@ internal value class HttpUrl(val url: String) {
 
     fun exists() = get().exists()
 
-    fun readTextOrNull() =
-        get()
-            .takeIf { it.exists() }
+    fun readTextOrNull(range: IntRange? = null) =
+        get {
+            range?.let {
+                setRequestHeader("Range", "bytes=${range.first}-${range.last}")
+            }
+        }.takeIf { it.exists() }
             ?.responseText
 
 
-    fun readBytesOrNull() =
+    fun readBytesOrNull(range: IntRange? = null) =
         get {
             overrideMimeType("text/plain; charset=x-user-defined")
+            range?.let {
+                setRequestHeader("Range", "bytes=${range.start}-${range.endInclusive}")
+            }
         }.takeIf { it.exists() }
             ?.let { response ->
                 val raw = response.responseText

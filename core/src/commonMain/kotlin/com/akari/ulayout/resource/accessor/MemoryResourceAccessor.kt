@@ -19,8 +19,10 @@ class MemoryResourceAccessor(
     private val storage: ResourceStorage
 ) : ResourceAccessor {
     override suspend fun exists(path: Path) = storage.containsKey(path)
-    override suspend fun readTextOrNull(path: Path) = storage[path]
-    override suspend fun readBytesOrNull(path: Path): ByteArray? = readTextOrNull(path)?.let(Base64::decode)
+    override suspend fun readTextOrNull(path: Path, range: IntRange?) =  storage[path]
+        ?.takeIf { range == null }
+        ?.substring(range!!)
+    override suspend fun readBytesOrNull(path: Path, range: IntRange?): ByteArray? = readTextOrNull(path, range)?.let(Base64::decode)
     override suspend fun <T> attach(path: Path, attach: suspend (String) -> T): T {
         requireExists(path)
         return attach(readText(path))
