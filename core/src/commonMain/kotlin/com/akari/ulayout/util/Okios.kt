@@ -9,4 +9,4 @@ internal fun Path.appendSuffix(suffix: String): Path =
     (toString() + suffix).toPath()
 
 internal operator fun Path.contains(other: Path): Boolean =
-    normalizeToString().endsWith(other.normalizeToString())
+    other.normalizeToString().startsWith(normalizeToString())

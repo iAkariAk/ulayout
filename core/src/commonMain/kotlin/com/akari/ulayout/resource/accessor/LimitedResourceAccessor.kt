@@ -24,7 +24,7 @@ class LimitedResourceAccessor(
 
     private fun checkValid(target: Path) {
         check(limit.contains(target)) {
-            "Cannot access a limited parent path."
+            "Cannot access a limited parent path $target."
         }
     }
 
