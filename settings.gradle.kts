@@ -28,3 +28,4 @@ rootProject.name = "ulayout"
 include(":core")
 include(":app")
 include(":ulpackm")
+include(":repoApp")

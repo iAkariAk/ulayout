@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="repoApp-wasm-js">
+    <output-path>$PROJECT_DIR$/repoApp/build/libs</output-path>
+    <root id="archive" name="repoApp-wasm-js.jar">
+      <element id="module-output" name="ulayout.repoApp.wasmJsMain" />
+    </root>
+  </artifact>
+</component>
