@@ -10,7 +10,6 @@ import com.akari.ulayout.util.UlayoutJson
 import com.akari.ulayout.util.appendSuffix
 import com.akari.ulayout.util.suspendedLazy
 import okio.Path
-import okio.Path.Companion.toPath
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -63,34 +62,4 @@ internal fun ResourceAccessor.getImage(path: Path) = suspendedLazy {
             UlayoutJson.decodeFromString(it)
         }
     )
-}
-
-internal suspend fun ImageResource.Companion.fromAssets(
-    imagePath: String,
-    descriptionPath: String = "$imagePath.sd.json"
-) = fromData(
-    imageSrcData = imagePath,
-    descriptionJson = ResourceAccessor.readTextOrNull(descriptionPath.toPath())
-)
-
-internal fun ImageResource.Companion.fromData(
-    imageSrcData: String,
-    descriptionJson: String?,
-) = suspendedLazy<ImageResource> {
-    suspendCoroutine { continuation ->
-        val description = descriptionJson?.let {
-            UlayoutJson.decodeFromString<ScaleDescription>(it)
-        }
-        val image = DomImage().apply {
-            src = imageSrcData
-        }
-        image.onload = {
-            val res = ImageResource(image, description)
-            continuation.resume(res)
-        }
-        image.onerror = { cause, file, line, column, g ->
-            console.error("$file($line:$column): $cause")
-            continuation.resumeWithException(IllegalStateException(cause.toString()))
-        }
-    }
 }
