@@ -6,7 +6,6 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.kotinx.atomicfu) apply false
-    alias(libs.plugins.resources) apply false
 }
 
 subprojects {
