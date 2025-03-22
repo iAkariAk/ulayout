@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.1.0"
+kotlin = "2.1.20"
 okio = "3.10.2"
 kotlinx-coroutines = "1.10.1"
 kotlinx-html = "0.12.0"
@@ -8,6 +8,7 @@ kotlinx-atomicfu = "0.27.0"
 korlibs-io = "6.0.1"
 jetbrains-annonations = "26.0.2"
 compose = "1.7.0"
+kotlinx-browser = "0.3"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
@@ -19,6 +20,7 @@ kotlinx-coroutines = { "module" = "org.jetbrains.kotlinx:kotlinx-coroutines-core
 kotlinx-html = { "module" = "org.jetbrains.kotlinx:kotlinx-html", version.ref = "kotlinx-html" }
 kotlinx-serialization-json = { "module" = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-atomicfu-runtime = { "module" = "org.jetbrains.kotlin:kotlinx-atomicfu-runtime", version.ref = "kotlin" }
+kotlinx-browser = { "module" = "org.jetbrains.kotlinx:kotlinx-browser", version.ref = "kotlinx-browser" }
 jetbrains-annonations = { "module" = "org.jetbrains:annotations", version.ref = "jetbrains-annonations" }
 
 [plugins]

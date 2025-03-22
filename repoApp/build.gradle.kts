@@ -16,7 +16,7 @@ version = "unspecified"
 
 kotlin {
     wasmJs {
-        moduleName = "composeApp"
+        outputModuleName = "composeApp"
         browser {
             commonWebpackConfig {
                 outputFileName = "composeApp.js"
@@ -42,6 +42,7 @@ kotlin {
                 implementation(compose.ui)
                 @OptIn(ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+//                implementation(project(":core"))
             }
         }
     }
